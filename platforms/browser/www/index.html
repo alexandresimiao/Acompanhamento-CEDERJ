@@ -148,6 +148,7 @@
 		//alert(urlbase);
 		
 		function acessa() {
+			alert(urlbase);
 			$('#content').empty();
 			mensagens = [];
 			var jqxhr = $.ajax(typeof(localStorage.urlvestibular) == "undefined" ? urlbase + 'acessa' : urlbase + 'acessa' + localStorage.urlvestibular)
@@ -173,8 +174,8 @@
 					$('#content').append('<div class="w3-white w3-text-grey w3-card-4" style="border-radius: 5px;"><table><tr><th>Reload:</th><td><input type="button" value="Atualizar" onclick="acessa();" style="width:100%;" class="w3-button w3-green w3-round-large"/></td></tr></table>');
 				
 			  })
-			  .fail(function() {
-				alert( "Não foi possível obter os dados, verifique sua conexão" );
+			  .fail(function(jqXHR, textStatus, error) {
+				alert( "Não foi possível obter os dados, verifique sua conexão: " + error);
 			  })
 			  .always(function() {
 				//alert( "complete" );
