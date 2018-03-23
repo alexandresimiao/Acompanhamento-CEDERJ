@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>Vestibular CEDERJ</title>
+    </head>
+	<style>
+		html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+		th {text-align : right;  width:25%;}
+		table {width:100%;}
+		th, td {border: 1px solid gray;}
+		.titulo {text-align : left; border: none;}
+	</style>
+    <body class="w3-light-grey">
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="jquery-2.2.4.min.js"></script>
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1080px;">
+
+    <!-- Left Column -->
+	
+		<div id="content" class="w3-row-padding">
+		</div>
+</div>
+    </body>
+	<script>
+		var mensagens = [];
+		function alerta(pos) {
+			alert(mensagens[pos]);
+		}
+		
+		function monta_table(obj, field){
+			var result = '';
+			var descs = {
+				arquivos : "Divulgação de Resultados",
+				pessoa : "Dados pessoais",
+				requerimento : "Requerimento de Isenção e Cotas",
+				inscricao : "Inscrições no Vestibular",
+				cpf : "CPF",
+				nome : "Nome",
+				isencao : "Isenção de Taxa",
+				cota : "Cotas (UERJ e UENF)",
+				afirmativa : "Ação Afirmativa",
+				renda : "Renda",
+				etnia : "Etnia",
+				forpro : "Professores",
+				numero : "Inscrição",
+				status : "Situação",
+				curso : "Curso",
+				polo : "Polo",
+				instituicao : "Instituição",
+				prova : "Alocação para a realização da Prova",
+				escola : "Escola",
+				sala :  "Sala",
+				endereco : "Endereço",
+				bairro : "Bairro",
+				cidade : "Cidade",
+				estado : "Estado",
+				referencia : "Referência",
+				objetiva : "Prova de Múltipla escolha",
+				nota : "Nota da Prova",
+				acertos : "Quantidade de acertos",
+				situacao : "Situação",
+				resultado_final : "Resultado Final",
+				nota_objetiva : "Nota de Multipla escolha",
+				nota_redacao : "Nota da Redação",
+				nota_final : "Nota Final",
+				classificacao : "Classificação",
+				enem : "Resultado do ENEM",
+				redacao : "Redação",
+				linguagens : "Linguagens",
+				matematica : "Matemática",
+				humanas : "Humanas",
+				natureza : "Natureza",
+				media : "Média",
+				matricula : "Matrícula",
+				reclassificacao : "Reclassificação"
+			};
+			var alerts = {
+				isencao : 2,
+				cota : 2,
+				afirmativa : 2,
+				renda : 2,
+				etnia : 2,
+				forpro : 2
+			};
+			var links = {
+				resultado_isencao_cota : "Resultado de Isenção e Cotas",
+				resultado_enem : "Resultado do ENEM",
+				resultado_multipla_escolha : "Notas da prova de múltipla escolha",
+				resultado : "Resultado Final",
+				primeira_reclassificacao : "Primeira Reclassificação",
+				segunda_reclassificacao : "Segunda Reclassificação",
+				terceira_reclassificacao : "Terceira Reclassificação",
+				preliminar : "Notas preliminares da Redação"
+			};
+			
+			result = result + '<div class="w3-white w3-text-grey w3-card-4" style="border-radius: 5px;"><table>';
+			
+			result = result + '<tr><th colspan="2" class="titulo">' + descs[field] + '</th></tr>';
+			
+			for (campo in obj) 
+				if (obj.hasOwnProperty(campo)){
+					result = result + '<tr>';
+					if (campo in descs) {
+						result = result + '<th>' + descs[campo] + '</th>';
+					}
+					if (Array.isArray(obj[campo])) {
+						for (var i = 0; i < obj[campo].length; i++) {
+							if (campo in alerts) {
+								if (alerts[campo] == i) {
+								} else if ((alerts[campo] == i + 1) && (obj[campo][i + 1] != null)) {
+									result = result + '<td>' + (obj[campo][i] == null ? '&nbsp;' : '<a href="#" onclick="alerta(' + mensagens.length + ');return false;">' + obj[campo][i] + '</a>') + '</td>';
+									mensagens.push(obj[campo][i + 1]);
+								} else {
+									result = result + '<td>' + (obj[campo][i] == null ? '&nbsp;' : obj[campo][i]) + '</td>';
+								}
+							} else {
+								result = result + '<td>' + (obj[campo][i] == null ? '&nbsp;' : obj[campo][i]) + '</td>';
+							}
+						}					
+					} else if (campo in links) {
+						result = result + '<td colspan="2"><a href="' + (obj[campo] == null ? '#' : obj[campo]) + '" download="' + campo + '.pdf">' + links[campo] +  '</a></td>';
+					} else {
+						result = result + '<td>' + (obj[campo] == null ? '&nbsp;' : obj[campo]) + '</td>';
+					}
+					result = result + '</tr>';
+				}
+			
+			result = result + '</table></div><br/>';
+			return result;
+		}
+	
+		var urlbase = atob('aHR0cDovL3d3dzIucHJvdmFlY29tcHJvdmEuY29tL3Zlc3RjZWRlcmovdmVzdGlidWxhcmVzX2FudGVyaW9yZXMvMTgxL2pzb24ucGhwP3dzPQ=='); //S
+		
+		//var urlbase = atob('aHR0cDovLzEyNy4wLjAuMS8xODEvanNvbi5waHA/d3M9'); //L
+		
+		function acessa() {
+			$('#content').empty();
+			mensagens = [];
+			var jqxhr = $.ajax(typeof(localStorage.urlvestibular) == "undefined" ? urlbase + 'acessa' : urlbase + 'acessa' + localStorage.urlvestibular)
+			  .done(function(data) {
+				var obj = JSON.parse(data);
+				var texto = '';
+				for (tabela in obj){
+					if (Array.isArray(obj[tabela])) {
+						for (var i = 0; i < obj[tabela].length; i++) {
+							$('#content').append(monta_table(obj[tabela][i], tabela));				
+						}
+					} else {
+						$('#content').append(monta_table(obj[tabela], tabela));				
+					}
+				}
+				
+				if (typeof(localStorage.urlvestibular) == "undefined") {
+					$('#content').append('<div class="w3-white w3-text-grey w3-card-4" style="border-radius: 5px;"><table><tr><th colspan="2" class="titulo">Informe seus dados para realizar o acompanhamento</th></tr><tr><th>CPF</th><td><input type="text" id="cpf"/></td></tr><tr><th>Senha</th><td><input type="password" id="senha"/></td></tr><tr><th>&nbsp;</th><td><input type="button" value="Autenticar" onclick="autentica();"/></td></tr></table>');
+				} else {
+					$('#content').append('<div class="w3-white w3-text-grey w3-card-4" style="border-radius: 5px;"><table><tr><th>&nbsp;</th><td><input type="button" value="Desconectar usuário" onclick="desconecta();"/></td></tr></table>');
+				}
+				
+			  })
+			  .fail(function() {
+				alert( "Não foi possível obter os dados, verifique sua conexão" );
+			  })
+			  .always(function() {
+				//alert( "complete" );
+			  });		
+		 }
+
+		function autentica() {
+			var jqxhr = $.ajax(urlbase + 'login&cpf=' + $('#cpf').val() + '&senha=' + $('#senha').val())
+			  .done(function(data) {
+				var obj = JSON.parse(data);
+				if (obj.login == false) {
+					alert(obj.mensagem);
+				} else {
+					localStorage.urlvestibular = '&cpf=' + $('#cpf').val() + '&senha=' + obj.mensagem;
+					acessa();
+				}
+			  })
+			  .fail(function() {
+				alert( "Não foi possível tentar a autenticação, verifique sua conexão" );
+			  })
+			  .always(function() {
+				//alert( "complete" );
+			  });		
+		 }
+		 
+		 function desconecta(){
+			localStorage.clear();
+			acessa();
+		 }
+		 
+		 acessa();
+		//alert('teste');
+	</script>
+</html>
