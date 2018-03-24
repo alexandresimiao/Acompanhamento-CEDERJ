@@ -215,18 +215,23 @@
 			}
 		 }
 		 
+		if (typeof(cordova) !== 'undefined') {
+			function onDeviceReady() {
+			  acessa();
+			}
+			
+			$(function() {
+				document.addEventListener("deviceready", onDeviceReady, true);
+			});		 
+
 		$("a[target='_blank']").click(function(e){
 		  e.preventDefault();
 		  window.open($(e.currentTarget).attr('href'), '_system', '');
 		});		 
-		 
-		function onDeviceReady() {
-		  acessa();
-		}
-		$(function() {
-			document.addEventListener("deviceready", onDeviceReady, true);
-		});		 
-		 
+
+		} else {
+			$( document ).ready(function(){acessa();});
+		 }
 		 
 		//alert('teste');
 	</script>
