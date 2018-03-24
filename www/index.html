@@ -115,6 +115,8 @@
 					result = result + '<tr>';
 					if (campo in descs) {
 						result = result + '<th>' + descs[campo] + '</th>';
+					} else if (campo in links) {
+						result = result + '<th style="width:75%; text-align : left;">' + links[campo] + '</th>';
 					}
 					if (Array.isArray(obj[campo])) {
 						for (var i = 0; i < obj[campo].length; i++) {
@@ -131,7 +133,7 @@
 							}
 						}					
 					} else if (campo in links) {
-						result = result + '<td colspan="2"><a href="' + (obj[campo] == null ? '#' : obj[campo]) + '" target="_blank" download="' + campo + '.pdf">' + links[campo] +  '</a></td>';
+						result = result + '<td><a id="url' + campo + '" href="' + (obj[campo] == null ? '#' : obj[campo]) + '" target="_blank" download="' + campo + '.pdf" onclick="baixapdf(\'' + campo + '\')">Download</a></td>';
 					} else {
 						result = result + '<td>' + (obj[campo] == null ? '&nbsp;' : obj[campo]) + '</td>';
 					}
@@ -215,7 +217,44 @@
 			}
 		 }
 		 
-		if (typeof(cordova) !== 'undefined') {
+		function baixapdf(alink){
+			if (typeof(cordova) !== 'undefined') {	
+				var taglink = '#url' + alink;
+				var uri = $(taglink).attr('href');
+				alert('teste');
+				//cordova.plugins.disusered.open(uri, function(){alert('ok');}, function(){alert('erro');});
+				window.cordova.plugins.FileOpener.canOpenFile(uri, function(){alert('ok');}, function(){alert('erro');});
+				alert('teste');
+				return false;
+				
+				$(taglink).html('Baixando');
+				//$(taglink).attr('disabled', true);
+				
+				//alert(cordova.file.dataDirectory);
+
+				var fileTransfer = new FileTransfer();
+				fileTransfer.download(
+					uri,
+					cordova.file.dataDirectory + '/' + alink + '.pdf',
+					function(entry) {
+						$(taglink).html('OK');
+					},
+					function(error) {
+						$(taglink).html('Erro');
+					},
+					false,
+					{}
+				);
+
+			return false;
+
+			} else {
+				return true;
+			}
+			
+		}
+
+		 if (typeof(cordova) !== 'undefined') {
 			function onDeviceReady() {
 			  acessa();
 			}
@@ -223,12 +262,6 @@
 			$(function() {
 				document.addEventListener("deviceready", onDeviceReady, true);
 			});		 
-
-		$("a[target='_blank']").click(function(e){
-		  e.preventDefault();
-		  window.open($(e.currentTarget).attr('href'), '_system', '');
-		});		 
-
 		} else {
 			$( document ).ready(function(){acessa();});
 		 }
