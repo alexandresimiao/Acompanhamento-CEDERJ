@@ -219,35 +219,8 @@
 		 
 		function baixapdf(alink){
 			if (typeof(cordova) !== 'undefined') {	
-				var taglink = '#url' + alink;
-				var uri = $(taglink).attr('href');
-				alert('teste');
-				//cordova.plugins.disusered.open(uri, function(){alert('ok');}, function(){alert('erro');});
-				window.cordova.plugins.FileOpener.canOpenFile(uri, function(){alert('ok');}, function(){alert('erro');});
-				alert('teste');
+				window.open($('#url' + alink).attr('href'), '_system');
 				return false;
-				
-				$(taglink).html('Baixando');
-				//$(taglink).attr('disabled', true);
-				
-				//alert(cordova.file.dataDirectory);
-
-				var fileTransfer = new FileTransfer();
-				fileTransfer.download(
-					uri,
-					cordova.file.dataDirectory + '/' + alink + '.pdf',
-					function(entry) {
-						$(taglink).html('OK');
-					},
-					function(error) {
-						$(taglink).html('Erro');
-					},
-					false,
-					{}
-				);
-
-			return false;
-
 			} else {
 				return true;
 			}

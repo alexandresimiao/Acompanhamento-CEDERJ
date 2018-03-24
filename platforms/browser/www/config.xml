@@ -12,6 +12,8 @@
     <gap:plugin name="cordova-plugin-file" source="npm" spec="4.3.3" />
     <gap:plugin name="cordova-plugin-file-transfer" source="npm" spec="1.6.3" />
     <gap:plugin name="cordova-plugin-fileopener" source="npm" />
+    <gap:plugin name="cordova-open" source="npm" />
+    <gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
     <access origin="*" />
     <allow-intent href="*" />
     <allow-navigation href="*" />
