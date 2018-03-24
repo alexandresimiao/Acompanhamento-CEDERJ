@@ -9,6 +9,7 @@
     </author>
     <content src="index.html" />
 	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
+	<gap:plugin name="cordova-plugin-file" source="npm" version="3.0.0"/>
 	<gap:plugin name="org.apache.cordova.file-transfer" source="pgb" />
 	
     <access origin="*" />
