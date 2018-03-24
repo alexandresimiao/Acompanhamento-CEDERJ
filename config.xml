@@ -9,8 +9,9 @@
     </author>
     <content src="index.html" />
 	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
-	<gap:plugin name="cordova-plugin-file" source="npm" version="3.0.0"/>
 	
+	<gap:plugin name="cordova-plugin-file" spec="4.3.3"/>
+	<gap:plugin name="cordova-plugin-file-transfer" spec="1.6.3"/>
 	
     <access origin="*" />
 	<allow-intent href="*" />
