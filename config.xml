@@ -9,10 +9,10 @@
     </author>
     <content src="index.html" />
 	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
-	<gap:plugin name="org.apache.cordova.inappbrowser" />
+	
     <access origin="*" />
 	<allow-intent href="*" />
 	<allow-navigation href="*" />
 	<icon src="icon.png" />
-	<gap:splash src="splash.png" />
+	<splash src="splash.png" />
 </widget>
