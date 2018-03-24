@@ -13,7 +13,8 @@
 		table {width:100%;}
 		th, td {border: 1px solid rgb(23,97,162); }
 		.titulo {text-align : left; border: none;}
-		
+		.login td {border : none;}
+		.login input {border : 1px solid rgb(23,97,162);}
 		
 		
 	</style>
@@ -24,7 +25,8 @@
 <div class="w3-content w3-margin-top" style="max-width:1080px;">
 
     <!-- Left Column -->
-		<div class="w3-row-padding"><div class="w3-white w3-text-gray w3-card-4" style="border-radius: 5px;"><img src="cecierj.jpg" style="width:100%;"/></div></div><br/>
+		<div class="w3-row-padding"><div class="w3-white w3-text-gray w3-card-4" ><img src="cecierj.jpg" style="width:100%;"/></div></div>
+		<div class="w3-row-padding"><div class="w3-card-4" style="text-align : center;  color : white; background-color: rgb(23,97,162); width:100%; dusplay:none;" id="atualizando"></div></div><br/>
 	
 		<div id="content" class="w3-row-padding">
 		</div>
@@ -39,7 +41,7 @@
 		function monta_table(obj, field){
 			var result = '';
 			var descs = {
-				arquivos : "Divulgação de Resultados",
+				arquivos : "Divulgação de editais e resultados",
 				pessoa : "Dados pessoais",
 				requerimento : "Requerimento de Isenção e Cotas",
 				inscricao : "Inscrições no Vestibular",
@@ -104,7 +106,7 @@
 				preliminar : "Notas preliminares da Redação"
 			};
 			
-			result = result + '<div class="w3-white w3-text-grey w3-card-4" style="border-radius: 5px;"><table>';
+			result = result + '<div class="w3-white w3-text-grey w3-card-4" ><table>';
 			
 			result = result + '<tr><th colspan="2" class="titulo">' + descs[field] + '</th></tr>';
 			
@@ -129,7 +131,7 @@
 							}
 						}					
 					} else if (campo in links) {
-						result = result + '<td colspan="2"><a href="' + (obj[campo] == null ? '#' : obj[campo]) + '" download="' + campo + '.pdf">' + links[campo] +  '</a></td>';
+						result = result + '<td colspan="2"><a href="' + (obj[campo] == null ? '#' : obj[campo]) + '" target="_blank" download="' + campo + '.pdf">' + links[campo] +  '</a></td>';
 					} else {
 						result = result + '<td>' + (obj[campo] == null ? '&nbsp;' : obj[campo]) + '</td>';
 					}
@@ -144,16 +146,16 @@
 		
 		//var urlbase = atob('aHR0cDovLzEyNy4wLjAuMS8xODEvanNvbi5waHA/d3M9'); //L
 
-
-		//alert(urlbase);
 		
 		function acessa() {
-			//alert(urlbase);
-			$('#content').empty();
-			mensagens = [];
+			$('#atualizando').html('Obtendo informações do vestibular...');
+			$('#atualizando').show();
+			
 			var jqxhr = $.ajax(typeof(localStorage.urlvestibular) == "undefined" ? urlbase + 'acessa' : urlbase + 'acessa' + localStorage.urlvestibular)
 			  .done(function(data) {
-			  //alert(data);
+				$('#atualizando').html('Informações obtidas com sucesso!');
+				$('#content').empty();
+				mensagens = [];
 				var obj = JSON.parse(data);
 				var texto = '';
 				for (tabela in obj){
@@ -167,18 +169,23 @@
 				}
 				
 				if (typeof(localStorage.urlvestibular) == "undefined") {
-					$('#content').append('<div class="w3-white w3-text-grey w3-card-4" style="border-radius: 5px;"><table><tr><th colspan="2" class="titulo">Informe seus dados para realizar o acompanhamento</th></tr><tr><th>CPF</th><td><input type="text" id="cpf" style="width:100%;"/></td></tr><tr><th>Senha</th><td><input type="password" id="senha" style="width:100%;"/></td></tr><tr><th>Login</th><td><input type="button" value="Autenticar" onclick="autentica();" style="width:100%;" class="w3-button w3-teal w3-round-large"/></td></tr></table>');
+					$('#content').append('<div class="w3-white w3-text-grey w3-card-4" ><table class="login"><tr><th colspan="2" class="titulo">Informe seus dados para realizar o acompanhamento</th></tr><tr><th>CPF</th><td><input type="text" id="cpf" style="width:100%;"/></td></tr><tr><th>Senha</th><td><input type="password" id="senha" style="width:100%;"/></td></tr><tr><td colspan="2"><input type="button" value="Autenticar" onclick="autentica();" style="width:100%;" class="w3-button w3-teal w3-round-large"/></td></tr></table></div>');
 				} else {
-					$('#content').append('<div class="w3-white w3-text-grey w3-card-4" style="border-radius: 5px;"><table><tr><th>Logoff:</th><td><input type="button" value="Desconectar usuário" onclick="desconecta();" style="width:100%;" class="w3-button w3-red w3-round-large"/></td></tr></table>');
+					$('#content').append('<div><input type="button" value="Desconectar usuário" onclick="desconecta();" style="width:100%;" class="w3-button w3-red w3-round-large"/></div>');
 				}
-					$('#content').append('<div class="w3-white w3-text-grey w3-card-4" style="border-radius: 5px;"><table><tr><th>Reload:</th><td><input type="button" value="Atualizar" onclick="acessa();" style="width:100%;" class="w3-button w3-green w3-round-large"/></td></tr></table>');
+				$('#content').append('<br/><input type="button" value="Atualizar" onclick="acessa();" style="width:100%;" class="w3-button w3-green w3-round-large"/>');
 				
+				window.setTimeout(function(){
+					$('#atualizando').fadeOut(500);
+				}, 1000);
 			  })
-			  .fail(function(jqXHR, textStatus, error) {
-				alert( "Não foi possível obter os dados, verifique sua conexão: " + error);
+			  .fail(function() {
+				
+				//alert( "");
+				$('#atualizando').html('Não foi possível obter os dados, verifique sua conexão!');
+
 			  })
 			  .always(function() {
-				//alert( "complete" );
 			  });		
 		 }
 
@@ -208,7 +215,19 @@
 			}
 		 }
 		 
-		 acessa();
+		$("a[target='_blank']").click(function(e){
+		  e.preventDefault();
+		  window.open($(e.currentTarget).attr('href'), '_system', '');
+		});		 
+		 
+		function onDeviceReady() {
+		  acessa();
+		}
+		$(function() {
+			document.addEventListener("deviceready", onDeviceReady, true);
+		});		 
+		 
+		 
 		//alert('teste');
 	</script>
 </html>

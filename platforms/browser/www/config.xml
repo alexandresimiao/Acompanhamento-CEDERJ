@@ -4,12 +4,15 @@
     <description>
         Acompanhamento do vestibular CEDERJ.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="vestibular@cecierj.edu.br" href="http://cederj.edu.br/fundacao/">
+        Vestibular CEDERJ
     </author>
     <content src="index.html" />
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
     <access origin="*" />
     <allow-intent href="*" />
     <allow-navigation href="*" />
+    <icon src="icon.png" />
+    <splash src="splash.png" />
 </widget>
