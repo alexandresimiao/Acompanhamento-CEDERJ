@@ -9,6 +9,7 @@
     </author>
     <content src="index.html" />
 	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
+	<gap:plugin name="org.apache.cordova.inappbrowser" spec="0.1.0" source="pgb" />
 	
     <access origin="*" />
 	<allow-intent href="*" />
