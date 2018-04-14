@@ -9,8 +9,8 @@
     </author>
     <content src="index.html" />
 	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
-	
 	<gap:plugin name="cordova-plugin-inappbrowser" source="npm"/>
+	<gap:plugin name="cordova-plugin-dialogs" source="npm"/>
 	
 	
     <access origin="*" />
