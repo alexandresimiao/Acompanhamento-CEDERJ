@@ -228,17 +228,21 @@
 		 }
 		 
 		 function desconecta(){
-		 
-			//if (confirm('Tem certeza que deseja desconectar o usuário?')) {
-			//	localStorage.clear();
-			//	acessa();
-			//}
-			navigator.notification.confirm('Tem certeza que deseja desconectar o usuário?', function(button){
-				if (button == 0) {
+			if (typeof(cordova) !== 'undefined') {	
+				navigator.notification.confirm('Tem certeza que deseja desconectar o usuário?', function(button){
+					//alert(button);
+					if (button == 1) {
+						localStorage.clear();
+						acessa();
+					}
+				}, 'CEDERJ', ['Sim','Não']);
+			} else {
+				if (confirm('Tem certeza que deseja desconectar o usuário?')) {
 					localStorage.clear();
 					acessa();
 				}
-			}, 'CEDERJ', ['Sim','Não']);
+			}
+		 
 		 }
 		 
 		function baixapdf(alink){
